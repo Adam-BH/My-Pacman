@@ -16,6 +16,7 @@ class App:
         self.cell_width = MAZE_WIDTH//28
         self.cell_height = MAZE_HEIGHT//30
         self.walls = []
+        self.coins = []
 
         self.player = Player(self, PLAYER_START_POS)
 
@@ -57,6 +58,8 @@ class App:
                 for xindex, char in enumerate(line):
                     if char == '1':
                         self.walls.append(vec(xindex, yindex))
+                    elif char == 'C':
+                        self.coins.append(vec(xindex, yindex))
 
 ###################### START FUNCTIONS ######################
 
@@ -99,12 +102,15 @@ class App:
 
     def playing_draw(self):
         self.screen.fill(BLACK)
-        self.draw_text('CURRENT SCORE: 0', self.screen, [60,5], 28, WHITE, TEXT_FONT)
+        self.draw_text('CURRENT SCORE: {}'.format(self.player.current_score), self.screen, [60,5], 28, WHITE, TEXT_FONT)
         self.draw_text('HIGH SCORE: 0', self.screen, [WIDTH//2+60,5], 28, WHITE, TEXT_FONT)
         
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER//2, TOP_BOTTOM_BUFFER//2))
-
         self.player.draw()
+
+        # DRAW COINS
+        for coin in self.coins:
+            pygame.draw.circle(self.screen, WHITE, (int(coin.x*self.cell_width)+self.cell_width//2+TOP_BOTTOM_BUFFER//2,int(coin.y*self.cell_width)+self.cell_height//2+TOP_BOTTOM_BUFFER//2), 3)
 
         # DRAW GRID
         '''
