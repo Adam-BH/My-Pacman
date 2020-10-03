@@ -13,9 +13,4 @@ BLACK = (0,0,0)
 GREY = (107, 107, 107)
 
 #font settings
-TEXT_FONT = './fonts/namco.ttf'
-
-#player settings
-PLAYER_START_POS = vec(1,1)
-
-#mob settings
+TEXT_FONT = './assets/fonts/namco.ttf'

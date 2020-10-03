@@ -1,11 +1,8 @@
 import pygame, sys
-from settings import *
-
-from player_class import *
+from data.classes.player_class import *
+from data.content.settings import *
 
 pygame.init()
-
-vec = pygame.math.Vector2
 
 class App:
     def __init__(self):
@@ -17,10 +14,11 @@ class App:
         self.cell_height = MAZE_HEIGHT//30
         self.walls = []
         self.coins = []
-
-        self.player = Player(self, PLAYER_START_POS)
+        self.p_pos = None
 
         self.load()
+
+        self.player = Player(self, self.p_pos)
 
     def run(self):
         while self.running:
@@ -50,16 +48,18 @@ class App:
         screen.blit(text, pos)
 
     def load(self):
-        self.background = pygame.image.load('./assets/maze.png')
+        self.background = pygame.image.load('./assets/images/maze.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
 
-        with open('walls.txt','r') as file:
+        with open('data/content/map.txt','r') as file:
             for yindex, line in enumerate(file):
                 for xindex, char in enumerate(line):
                     if char == '1':
                         self.walls.append(vec(xindex, yindex))
                     elif char == 'C':
                         self.coins.append(vec(xindex, yindex))
+                    elif char == 'P':
+                        self.p_pos = vec(xindex, yindex)
 
 ###################### START FUNCTIONS ######################
 

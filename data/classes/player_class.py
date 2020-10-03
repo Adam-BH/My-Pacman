@@ -1,7 +1,5 @@
 import pygame
-from settings import *
-
-vec = pygame.math.Vector2
+from data.content.settings import *
 
 class Player:
     def __init__(self, app, pos):
@@ -16,7 +14,7 @@ class Player:
     def update(self):
         if self.able_to_move:
             self.pix_pos += self.direction
-        if self.time_to_move():
+        if self.on_tile():
             if self.stored_direction != None:
                 self.direction = self.stored_direction
             self.able_to_move = self.can_move()
@@ -40,7 +38,7 @@ class Player:
 
     ###################### EXTRA FUNC ######################
     
-    def time_to_move(self):
+    def on_tile(self):
         if int(self.pix_pos.x+TOP_BOTTOM_BUFFER) % self.app.cell_width == 0:
             if self.direction == vec(1,0) or self.direction == vec(-1, 0):
                 return True
@@ -56,7 +54,8 @@ class Player:
 
     def on_coin(self):
         if self.grid_pos in self.app.coins:
-            return True
+            if self.on_tile():
+                return True
         return False
 
     def eat_coin(self):
